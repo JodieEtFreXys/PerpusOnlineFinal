@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="15dp"
+    android:layout_margin="15dp"
+    android:id="@+id/cardViewAllRequest">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp">
+
+            <ImageView
+                android:id="@+id/imvViewAllRequestBookCover"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_launcher_background"
+                android:layout_margin="10dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txvViewAllRequestBookName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Book Name"
+                    android:textStyle="bold"
+                    android:textSize="35sp"
+                    />
+
+                <TextView
+                    android:id="@+id/txvViewAllRequestBookAuthor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Author"
+                    android:maxLines="1"
+                    android:textSize="20sp"
+                    />
+
+                <TextView
+                    android:id="@+id/txvViewAllRequestBookRequester"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Requester"
+                    android:maxLines="2"
+                    android:textSize="20sp"
+                    />
+
+                <TextView
+                    android:id="@+id/txvViewAllRequestBookReceiver"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Receiver"
+                    android:maxLines="2"
+                    android:textSize="20sp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
