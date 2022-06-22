@@ -17,10 +17,13 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 
 public class RequestDetailForm extends AppCompatActivity {
 
-    private TextView txvRequestDetailName, txvRequestDetailAuthor, txvReqDetailRequester, txvReqDetailReceiver, txvlati;
+    private TextView txvRequestDetailName, txvRequestDetailAuthor, txvReqDetailRequester,
+            txvReqDetailReceiver, txvlati;
     private ImageView imvRequestDetailCover;
     private Button btnRequestDetailAccept;
     int PLACE_PICKER_REQ = 1;
+
+    private String latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +77,8 @@ public class RequestDetailForm extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this);
                 StringBuilder stringBuilder = new StringBuilder();
-                String latitude = String.valueOf(place.getLatLng().latitude);
-                String longitude = String.valueOf(place.getLatLng().longitude);
+                latitude = String.valueOf(place.getLatLng().latitude);
+                longitude = String.valueOf(place.getLatLng().longitude);
                 stringBuilder.append("Latitude :");
                 stringBuilder.append(latitude);
                 stringBuilder.append("/n");
