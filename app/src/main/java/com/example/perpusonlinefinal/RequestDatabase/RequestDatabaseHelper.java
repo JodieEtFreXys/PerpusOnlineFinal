@@ -1,9 +1,12 @@
 package com.example.perpusonlinefinal.RequestDatabase;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -51,5 +54,24 @@ public class RequestDatabaseHelper extends SQLiteOpenHelper {
         }
 
         return cursor;
+    }
+
+    public void addData(int bookId, int reqId, int recId, float latitude, float longitude){
+
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COLUMN_BOOK, bookId);
+        contentValues.put(COLUMN_REQUESTER, reqId);
+        contentValues.put(COLUMN_RECEIVER, recId);
+        contentValues.put(COLUMN_LATITUDE, latitude);
+        contentValues.put(COLUMN_LONGITUDE, longitude);
+
+        long result = sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
+        if(result == -1){
+            Log.d("Database", "add book failed");
+        }else{
+            Log.d("Database", "add book success: " + bookId);
+        }
     }
 }
