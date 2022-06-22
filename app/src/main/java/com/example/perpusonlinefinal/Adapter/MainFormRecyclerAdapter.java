@@ -1,6 +1,7 @@
 package com.example.perpusonlinefinal.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.perpusonlinefinal.BookDetailForm;
 import com.example.perpusonlinefinal.R;
 
 import java.util.ArrayList;
@@ -46,11 +48,11 @@ public class MainFormRecyclerAdapter extends RecyclerView.Adapter<MainFormRecycl
 
         String temp = String.valueOf(name.get(position));
         String temp1 = String.valueOf(author.get(position));
-        String tempTemp = String.valueOf(cover.get(position));
-        int temp2 = Integer.parseInt(tempTemp);
         String temp3 = String.valueOf(synopsis.get(position));
+        String temp4 = String.valueOf(cover.get(position));
+        String temp0 = String.valueOf(id.get(position));
+        int tempId = Integer.parseInt(temp0);
 
-        holder.imvMainFormBookCover.setImageResource(temp2);
         holder.txvMainFormBookName.setText(temp);
         holder.txvMainFormBookAuthor.setText(temp1);
         holder.txvMainFormBookSynopsis.setText(temp3);
@@ -58,14 +60,20 @@ public class MainFormRecyclerAdapter extends RecyclerView.Adapter<MainFormRecycl
             @Override
             public void onClick(View view) {
 
-
+                Intent goToBookDetail = new Intent(context, BookDetailForm.class);
+                goToBookDetail.putExtra("bookId", tempId);
+                goToBookDetail.putExtra("name", temp);
+                goToBookDetail.putExtra("author", temp1);
+                goToBookDetail.putExtra("cover", temp4);
+                goToBookDetail.putExtra("synopsis", temp3);
+                context.startActivity(goToBookDetail);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return id.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
