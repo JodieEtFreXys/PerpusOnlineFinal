@@ -54,6 +54,16 @@
         tools:text="Receiver@email.com"
         android:textSize="15sp"
         />
+    <TextView
+        android:id="@+id/lati"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:textAlignment="center"
+        android:textSize="20dp"/>
+
+
+
 
     <Button
         android:id="@+id/btnRequestDetailAccept"
