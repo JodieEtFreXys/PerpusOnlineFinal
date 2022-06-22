@@ -94,7 +94,7 @@ public class LoginForm extends AppCompatActivity {
     }
 
     private void toRegister(){
-
+//dsfdf
         Intent intent = new Intent(LoginForm.this, RegisterForm.class);
         startActivity(intent);
     }
