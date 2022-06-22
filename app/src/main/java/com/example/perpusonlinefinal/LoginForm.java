@@ -76,7 +76,7 @@ public class LoginForm extends AppCompatActivity {
 
         email = etxLoginEmail.getText().toString();
         password = etxLoginPass.getText().toString();
-
+//asdsad
         cursor = userDatabaseHelper.validateEmail(email, password);
         if(cursor != null){
             // Missing shared preference
