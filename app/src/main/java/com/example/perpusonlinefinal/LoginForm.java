@@ -85,7 +85,7 @@ public class LoginForm extends AppCompatActivity {
 
             return false;
         }
-    }
+    }//
 
     private void toMainMenu(){
 
