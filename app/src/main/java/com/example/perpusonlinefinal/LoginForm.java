@@ -81,7 +81,7 @@ public class LoginForm extends AppCompatActivity {
         if(cursor != null){
             // Missing shared preference
             return true;
-        }else{
+        }else{// ganti view
 
             return false;
         }
