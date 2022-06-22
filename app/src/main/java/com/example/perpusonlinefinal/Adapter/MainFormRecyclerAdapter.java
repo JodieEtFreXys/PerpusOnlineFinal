@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.perpusonlinefinal.BookDetailForm;
 import com.example.perpusonlinefinal.R;
 
@@ -52,6 +53,10 @@ public class MainFormRecyclerAdapter extends RecyclerView.Adapter<MainFormRecycl
         String temp4 = String.valueOf(cover.get(position));
         String temp0 = String.valueOf(id.get(position));
         int tempId = Integer.parseInt(temp0);
+
+        Glide.with(context)
+                .load("https://isys6203-perpus-online.herokuapp.com/" + temp4)
+                .into(holder.imvMainFormBookCover);
 
         holder.txvMainFormBookName.setText(temp);
         holder.txvMainFormBookAuthor.setText(temp1);
