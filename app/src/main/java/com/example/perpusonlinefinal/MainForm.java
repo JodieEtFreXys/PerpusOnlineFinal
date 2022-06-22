@@ -8,12 +8,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.perpusonlinefinal.Adapter.MainFormRecyclerAdapter;
 import com.example.perpusonlinefinal.BookDatabase.BookDatabaseHelper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -32,7 +43,15 @@ public class MainForm extends AppCompatActivity {
         setContentView(R.layout.activity_main_form);
 
         initUi();
-        initControl();
+        initData();
+    }
+
+    private void initData() {
+        if (bookDatabaseHelper.readAllData().getCount() == 0) {
+            getBookFromNetwork();
+        } else {
+            readDataFromDatabase();
+        }
     }
 
     private void initUi(){
@@ -45,11 +64,9 @@ public class MainForm extends AppCompatActivity {
         author = new ArrayList<>();
         cover = new ArrayList<>();
         synopsis = new ArrayList<>();
-
-        storeData();
     }
 
-    private void initControl(){
+    private void setRecyclerView(){
 
         mainFormRecyclerAdapter = new MainFormRecyclerAdapter(MainForm.this, id, name,
                 author, cover, synopsis);
@@ -57,10 +74,10 @@ public class MainForm extends AppCompatActivity {
         rvMainForm.setLayoutManager(new LinearLayoutManager(MainForm.this));
     }
 
-    private void storeData(){
+    private void readDataFromDatabase(){
 
         Cursor cursor = bookDatabaseHelper.readAllData();
-        if(cursor.getCount() > 0){
+        if(cursor.getCount() <= 0){
             Toast.makeText(MainForm.this, "No data", Toast.LENGTH_SHORT).show();
         }else{
 
@@ -73,6 +90,50 @@ public class MainForm extends AppCompatActivity {
                 synopsis.add(cursor.getString(4));
             }
         }
+
+        setRecyclerView();
+    }
+
+    private void getBookFromNetwork() {
+        Log.d("REQUEST", "Request start");
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://isys6203-perpus-online.herokuapp.com/";
+
+        JsonArrayRequest getBookRequest = new JsonArrayRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d("REQUEST", "Request success");
+                        insertDataToDatabase(response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("REQUEST", "Request error");
+                    }
+                });
+
+        queue.add(getBookRequest);
+    }
+
+    private void insertDataToDatabase(JSONArray jsonArray) {
+        for (int i = 0 ; i < jsonArray.length() ; i++) {
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String name = jsonObject.getString("name");
+                String author = jsonObject.getString("author");
+                String synopsis = jsonObject.getString("synopsis");
+                String cover = jsonObject.getString("cover");
+
+                bookDatabaseHelper.addData(name, author, synopsis, cover);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        readDataFromDatabase();
     }
 
     @Override
