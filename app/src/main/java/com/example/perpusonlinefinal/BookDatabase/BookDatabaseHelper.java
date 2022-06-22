@@ -1,9 +1,11 @@
 package com.example.perpusonlinefinal.BookDatabase;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -51,4 +53,24 @@ public class BookDatabaseHelper extends SQLiteOpenHelper {
 
         return cursor;
     }
+
+    public void addData(String name, String author, String synopsis, String cover){
+
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COLUMN_NAME, name);
+        contentValues.put(COLUMN_AUTHOR, author);
+        contentValues.put(COLUMN_COVER, cover);
+        contentValues.put(COLUMN_SYNOPSIS, synopsis);
+
+        long result = sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
+
+        if(result == -1){
+            Log.d("Database", "add book failed");
+        }else{
+            Log.d("Database", "add book success: " + name);
+        }
+    }
+
 }
