@@ -152,6 +152,7 @@ public class MainForm extends AppCompatActivity {
             startActivity(goToViewAllRequest);
         }else if(item.getItemId() == R.id.menuLogout){
             //missing Shared preference
+            SharedPreferenceManager.setUserLogout(MainForm.this);
             Intent goToLogin = new Intent(MainForm.this, LoginForm.class);
             startActivity(goToLogin);
         }
