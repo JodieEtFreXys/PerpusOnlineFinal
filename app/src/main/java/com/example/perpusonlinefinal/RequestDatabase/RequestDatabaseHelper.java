@@ -56,7 +56,7 @@ public class RequestDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void addData(int bookId, int reqId, int recId, float latitude, float longitude){
+    public void addData(int bookId, int reqId, int recId, String latitude, String longitude){
 
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
