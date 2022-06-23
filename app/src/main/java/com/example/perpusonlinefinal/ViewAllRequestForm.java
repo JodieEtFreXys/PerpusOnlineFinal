@@ -77,6 +77,7 @@ public class ViewAllRequestForm extends AppCompatActivity {
             Toast.makeText(ViewAllRequestForm.this, "No data", Toast.LENGTH_SHORT).show();
         }else{
 
+            cursor.moveToFirst();
             while(cursor.moveToNext()){
 
                 String temp0 = cursor.getString(1);
@@ -87,6 +88,7 @@ public class ViewAllRequestForm extends AppCompatActivity {
                 int tempTemp1 = Integer.parseInt(temp1);
                 int tempTemp2 = Integer.parseInt(temp2);
 
+                id.add(cursor.getString(0));
                 bookId.add(temp0);
                 requesterId.add(temp1);
                 receiverId.add(temp2);
@@ -108,7 +110,7 @@ public class ViewAllRequestForm extends AppCompatActivity {
             Toast.makeText(ViewAllRequestForm.this, "No data", Toast.LENGTH_SHORT).show();
         }else{
 
-            cursor.move(id-1);
+            cursor.moveToPosition(id-1);
             name.add(cursor.getString(1));
             author.add(cursor.getString(2));
             cover.add(cursor.getString(3));
@@ -118,11 +120,13 @@ public class ViewAllRequestForm extends AppCompatActivity {
     private void storeDataFromUser(int reqId, int recId){
 
         Cursor cursor = userDatabaseHelper.readAllData();
-        if(cursor.getCount() <= 0){
+        int count = cursor.getCount();
+        if(count < 0){
             Toast.makeText(ViewAllRequestForm.this, "No data", Toast.LENGTH_SHORT).show();
         }else{
 
-            cursor.move(reqId-1);
+            int temp = reqId - 1;
+            cursor.moveToPosition(temp);
             requesterName.add(cursor.getString(1));
 
             if(recId == -1){
@@ -130,7 +134,7 @@ public class ViewAllRequestForm extends AppCompatActivity {
                 receiverName.add("-");
             }else{
 
-                cursor.move(recId-1);
+                cursor.moveToPosition(recId-1);
                 receiverName.add(cursor.getString(1));
             }
         }
