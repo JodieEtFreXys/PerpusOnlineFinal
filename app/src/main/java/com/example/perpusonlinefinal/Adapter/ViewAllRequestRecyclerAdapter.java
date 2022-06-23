@@ -46,7 +46,7 @@ public class ViewAllRequestRecyclerAdapter extends RecyclerView.Adapter<ViewAllR
     public ViewAllRequestRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.main_form_card, parent, false);
+        View view = inflater.inflate(R.layout.view_all_request_card, parent, false);
 
         return new ViewAllRequestRecyclerAdapter.ViewHolder(view);
     }
@@ -64,10 +64,8 @@ public class ViewAllRequestRecyclerAdapter extends RecyclerView.Adapter<ViewAllR
         String temp7 = String.valueOf(author.get(position));
 
         String temp8 = String.valueOf(cover.get(position));
-        String tempTemp1 = String.valueOf(latitude.get(position));
-        float temp9 = Float.parseFloat(tempTemp1);
-        String tempTemp2 = String.valueOf(longitude.get(position));
-        float temp0 = Float.parseFloat(tempTemp2);
+        String temp9 = String.valueOf(latitude.get(position));
+        String temp0 = String.valueOf(longitude.get(position));
 
         Glide.with(context)
                 .load("https://isys6203-perpus-online.herokuapp.com/" + temp8)
@@ -96,7 +94,7 @@ public class ViewAllRequestRecyclerAdapter extends RecyclerView.Adapter<ViewAllR
 
     @Override
     public int getItemCount() {
-        return 0;
+        return id.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
