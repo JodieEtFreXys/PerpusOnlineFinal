@@ -12,16 +12,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.perpusonlinefinal.RequestDatabase.RequestDatabaseHelper;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
 public class BookDetailForm extends AppCompatActivity {
 
-    private TextView txvBookDetailName, txvBookDetailAuthor, txvBookDetailSynopsis;
+    private TextView txvBookDetailName, txvBookDetailAuthor, txvBookDetailSynopsis, txvLocation;
     private ImageView imvDetailCover;
     private Button btnBookDetailRequest;
 
-   // int PLACE_PICKER_REQ = 1;
+   int PLACE_PICKER_REQ = 1;
 
     private String latitude, longitude, name, author, cover, synopsis;
     private int bookId;
@@ -58,7 +60,9 @@ public class BookDetailForm extends AppCompatActivity {
         txvBookDetailAuthor = findViewById(R.id.txvBookDetailAuthor);
         txvBookDetailSynopsis = findViewById(R.id.txvBookDetailSynopsis);
         imvDetailCover = findViewById(R.id.imvDetailCover);
+        txvLocation = findViewById(R.id.txvLocation);
         btnBookDetailRequest = findViewById(R.id.btnBookDetailRequest);
+
 
         requestDatabaseHelper = new RequestDatabaseHelper(this);
 
@@ -71,7 +75,22 @@ public class BookDetailForm extends AppCompatActivity {
                 .into(imvDetailCover);
     }
 
+
     private void initControl(){
+        txvLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(BookDetailForm.this),PLACE_PICKER_REQ);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         btnBookDetailRequest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,5 +107,24 @@ public class BookDetailForm extends AppCompatActivity {
                 startActivity(goToMainForm);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PLACE_PICKER_REQ) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, this);
+                StringBuilder stringBuilder = new StringBuilder();
+                latitude = String.valueOf(place.getLatLng().latitude);
+                longitude = String.valueOf(place.getLatLng().longitude);
+                stringBuilder.append("Latitude :");
+                stringBuilder.append(latitude);
+                stringBuilder.append("/n");
+                stringBuilder.append("Longitude :");
+                stringBuilder.append(longitude);
+                txvLocation.setText(stringBuilder.toString());
+            }
+        }
     }
 }
