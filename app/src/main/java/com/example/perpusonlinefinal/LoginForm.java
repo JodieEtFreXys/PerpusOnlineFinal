@@ -26,6 +26,12 @@ public class LoginForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_form);
 
+        if(SharedPreferenceManager.isLoggedIn(LoginForm.this)){
+
+            toMainMenu();
+            finish();
+        }
+
         initUi();
         initControl();
     }
@@ -54,7 +60,7 @@ public class LoginForm extends AppCompatActivity {
                     toMainMenu();
                 }else{
                     //Failed to login
-                    toMainMenu();
+                    Toast.makeText(LoginForm.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -78,8 +84,11 @@ public class LoginForm extends AppCompatActivity {
         password = etxLoginPass.getText().toString();
 
         cursor = userDatabaseHelper.validateEmail(email, password);
-        if(cursor != null){
-            // Missing shared preference
+        if(cursor.getCount() > 0){
+            // Change if
+            int id = Integer.parseInt(cursor.getString(0));
+//            int id = 1;
+            SharedPreferenceManager.setLoggedInUserData(this, id);
             return true;
         }else{
 
