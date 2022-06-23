@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.perpusonlinefinal.RequestDatabase.RequestDatabaseHelper;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
@@ -20,7 +21,7 @@ public class BookDetailForm extends AppCompatActivity {
     private ImageView imvDetailCover;
     private Button btnBookDetailRequest;
 
-    int PLACE_PICKER_REQ = 1;
+   // int PLACE_PICKER_REQ = 1;
 
     private String latitude, longitude, name, author, cover, synopsis;
     private int bookId;
@@ -60,6 +61,14 @@ public class BookDetailForm extends AppCompatActivity {
         btnBookDetailRequest = findViewById(R.id.btnBookDetailRequest);
 
         requestDatabaseHelper = new RequestDatabaseHelper(this);
+
+        txvBookDetailName.setText(name);
+        txvBookDetailAuthor.setText(author);
+        txvBookDetailSynopsis.setText(synopsis);
+
+        Glide.with(BookDetailForm.this)
+                .load("https://isys6203-perpus-online.herokuapp.com/" + cover)
+                .into(imvDetailCover);
     }
 
     private void initControl(){
@@ -68,30 +77,16 @@ public class BookDetailForm extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //Missing function,  map fragment, database input
-                float toLat = Float.parseFloat(latitude);
-                float toLon = Float.parseFloat(longitude);
-                requestDatabaseHelper.addData(bookId, 1, 99, toLat, toLon);
+                //map fragment?
+//                float toLat = Float.parseFloat(latitude);
+//                float toLon = Float.parseFloat(longitude);
+
+                //reqId shared preference
+                requestDatabaseHelper.addData(bookId, SharedPreferenceManager.getUserId(BookDetailForm.this), -1, 0, 0);
+
+                Intent goToMainForm = new Intent(BookDetailForm.this, MainForm.class);
+                startActivity(goToMainForm);
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PLACE_PICKER_REQ) {
-            if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(data, this);
-                StringBuilder stringBuilder = new StringBuilder();
-                latitude = String.valueOf(place.getLatLng().latitude);
-                longitude = String.valueOf(place.getLatLng().longitude);
-                stringBuilder.append("Latitude :");
-                stringBuilder.append(latitude);
-                stringBuilder.append("/n");
-                stringBuilder.append("Longitude :");
-                stringBuilder.append(longitude);
-                //txvlati.setText(stringBuilder.toString());
-            }
-        }
     }
 }
