@@ -69,9 +69,24 @@ public class RequestDatabaseHelper extends SQLiteOpenHelper {
 
         long result = sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
         if(result == -1){
-            Log.d("Database", "add book failed");
+            Log.d("Database", "add req failed");
         }else{
-            Log.d("Database", "add book success: " + bookId);
+            Log.d("Database", "add req success: " + bookId);
+        }
+    }
+
+    public void updateData(String id, int recId){
+
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COLUMN_REQUESTER, recId);
+
+        long result = sqLiteDatabase.update(TABLE_NAME, contentValues, "id = ?", new String[]{});
+        if(result == -1){
+            Log.d("Database", "update req failed");
+        }else{
+            Log.d("Database", "update req success: " + id);
         }
     }
 }
