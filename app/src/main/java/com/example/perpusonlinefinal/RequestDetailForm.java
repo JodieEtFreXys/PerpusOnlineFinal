@@ -25,7 +25,7 @@ public class RequestDetailForm extends AppCompatActivity {
     private TextView txvRequestDetailName, txvRequestDetailAuthor, txvReqDetailRequester,
             txvReqDetailReceiver, txvlati, txvRequestDetailSynopsis;
     private ImageView imvRequestDetailCover;
-    private Button btnRequestDetailAccept;
+    private Button btnRequestDetailAccept, btnRequestMessaging;
     int PLACE_PICKER_REQ = 1;
 
     private String latitude, longitude, name, author, synopsis, reqName, recName, cover, id,
@@ -74,6 +74,7 @@ public class RequestDetailForm extends AppCompatActivity {
         txvRequestDetailSynopsis = findViewById(R.id.txvRequestDetailSynopsis);
         imvRequestDetailCover = findViewById(R.id.imvRequestDetailCover);
         btnRequestDetailAccept = findViewById(R.id.btnRequestDetailAccept);
+        btnRequestMessaging = findViewById(R.id.btnRequestMessaging);
         txvlati = findViewById(R.id.lati);
 
         requestDatabaseHelper = new RequestDatabaseHelper(this);
@@ -130,6 +131,17 @@ public class RequestDetailForm extends AppCompatActivity {
         if(SharedPreferenceManager.getUserId(RequestDetailForm.this) == reqId){
 
             btnRequestDetailAccept.setVisibility(View.GONE);
+            btnRequestMessaging.setVisibility(View.GONE);
+        }else if(SharedPreferenceManager.getUserId(RequestDetailForm.this) == recId){
+
+            btnRequestDetailAccept.setVisibility(View.GONE);
+            btnRequestMessaging.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    //Masuk ke sms
+                }
+            });
         }else{
 
             btnRequestDetailAccept.setOnClickListener(new View.OnClickListener() {

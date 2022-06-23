@@ -71,9 +71,6 @@
         android:textAlignment="center"
         android:textSize="20dp"/>
 
-
-
-
     <Button
         android:id="@+id/btnRequestDetailAccept"
         android:layout_width="match_parent"
@@ -83,5 +80,16 @@
         android:backgroundTint="@color/teal_200"
         android:textColor="@color/black"
         android:text="Accept Request"
+        />
+
+    <Button
+        android:id="@+id/btnRequestMessaging"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/teal_200"
+        android:textColor="@color/black"
+        android:text="Message"
         />
 </LinearLayout>
