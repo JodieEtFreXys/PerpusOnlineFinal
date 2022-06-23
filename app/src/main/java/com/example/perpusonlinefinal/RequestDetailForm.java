@@ -18,20 +18,43 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 public class RequestDetailForm extends AppCompatActivity {
 
     private TextView txvRequestDetailName, txvRequestDetailAuthor, txvReqDetailRequester,
-            txvReqDetailReceiver, txvlati;
+            txvReqDetailReceiver, txvlati, txvRequestDetailSynopsis;
     private ImageView imvRequestDetailCover;
     private Button btnRequestDetailAccept;
     int PLACE_PICKER_REQ = 1;
 
-    private String latitude, longitude;
+    private String latitude, longitude, name, author, synopsis, reqName, recName, cover, id;
+    private RequestDatabaseHelper requestDatabaseHelper;
+    private BookDatabaseHelper bookDatabaseHelper;
+    private UserDatabaseHelper userDatabaseHelper;
+
+    private int tempId, bookId, reqId, recId;
+    private float lat, lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_detail_form);
 
+        initData();
         initUi();
         initControl();
+    }
+
+    private void initData(){
+
+        Intent intent = this.getIntent();
+
+        if(intent != null){
+
+            tempId = intent.getIntExtra("id", 0);
+            id = String.valueOf(tempId);
+            bookId = intent.getIntExtra("bookId", 0);
+            reqId= intent.getIntExtra("requesterId", 0);
+            recId = intent.getIntExtra("receiverId", 0);
+            lat = intent.getFloatExtra("latitude", 0);
+            lon = intent.getFloatExtra("longitude", 0);
+        }
     }
 
     private void initUi(){
