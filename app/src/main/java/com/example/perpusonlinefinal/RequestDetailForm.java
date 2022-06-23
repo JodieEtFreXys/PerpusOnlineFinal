@@ -4,12 +4,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.perpusonlinefinal.BookDatabase.BookDatabaseHelper;
+import com.example.perpusonlinefinal.RequestDatabase.RequestDatabaseHelper;
+import com.example.perpusonlinefinal.UserDatabase.UserDatabaseHelper;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -114,22 +119,33 @@ public class RequestDetailForm extends AppCompatActivity {
     }
     private void initControl(){
 
+        if(SharedPreferenceManager.getUserId(RequestDetailForm.this) == reqId){
 
-        btnRequestDetailAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            btnRequestDetailAccept.setVisibility(View.GONE);
+        }else{
 
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-                try {
-                    startActivityForResult(builder.build(RequestDetailForm.this),PLACE_PICKER_REQ);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
+            btnRequestDetailAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                    try {
+                        startActivityForResult(builder.build(RequestDetailForm.this),PLACE_PICKER_REQ);
+                    } catch (GooglePlayServicesRepairableException e) {
+                        e.printStackTrace();
+                    } catch (GooglePlayServicesNotAvailableException e) {
+                        e.printStackTrace();
+                    }
+
+                    //Insert to Database code here
+                    requestDatabaseHelper.updateData(id, recId);
+                    Intent goToViewAllRequest = new Intent(RequestDetailForm.this, ViewAllRequestForm.class);
+                    startActivity(goToViewAllRequest);
                 }
-            }
-        });
+            });
+        }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -146,8 +162,6 @@ public class RequestDetailForm extends AppCompatActivity {
                 stringBuilder.append("Longitude :");
                 stringBuilder.append(longitude);
                 txvlati.setText(stringBuilder.toString());
-
-
             }
         }
     }
