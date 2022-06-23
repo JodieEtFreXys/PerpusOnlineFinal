@@ -136,15 +136,6 @@ public class RequestDetailForm extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-                    try {
-                        startActivityForResult(builder.build(RequestDetailForm.this),PLACE_PICKER_REQ);
-                    } catch (GooglePlayServicesRepairableException e) {
-                        e.printStackTrace();
-                    } catch (GooglePlayServicesNotAvailableException e) {
-                        e.printStackTrace();
-                    }
-
                     //Insert to Database code here
                     requestDatabaseHelper.updateData(id, recId);
                     Intent goToViewAllRequest = new Intent(RequestDetailForm.this, ViewAllRequestForm.class);
@@ -152,6 +143,19 @@ public class RequestDetailForm extends AppCompatActivity {
                 }
             });
         }
+        txvlati.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(RequestDetailForm.this),PLACE_PICKER_REQ);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 
