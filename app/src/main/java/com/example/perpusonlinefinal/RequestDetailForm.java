@@ -28,13 +28,13 @@ public class RequestDetailForm extends AppCompatActivity {
     private Button btnRequestDetailAccept;
     int PLACE_PICKER_REQ = 1;
 
-    private String latitude, longitude, name, author, synopsis, reqName, recName, cover, id;
+    private String latitude, longitude, name, author, synopsis, reqName, recName, cover, id,
+            lat, lon;
     private RequestDatabaseHelper requestDatabaseHelper;
     private BookDatabaseHelper bookDatabaseHelper;
     private UserDatabaseHelper userDatabaseHelper;
 
-    private int tempId, bookId, reqId, recId;
-    private float lat, lon;
+    private int Id, bookId, reqId, recId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +52,15 @@ public class RequestDetailForm extends AppCompatActivity {
 
         if(intent != null){
 
-            tempId = intent.getIntExtra("id", 0);
-            id = String.valueOf(tempId);
-            bookId = intent.getIntExtra("bookId", 0);
-            reqId= intent.getIntExtra("requesterId", 0);
-            recId = intent.getIntExtra("receiverId", 0);
-            lat = intent.getFloatExtra("latitude", 0);
-            lon = intent.getFloatExtra("longitude", 0);
+            id = intent.getStringExtra("id");
+            String tempBookId = intent.getStringExtra("bookId");
+            bookId = Integer.parseInt(tempBookId);
+            String tempReqId= intent.getStringExtra("requesterId");
+            reqId = Integer.parseInt(tempReqId);
+            String tempRecId = intent.getStringExtra("receiverId");
+            recId = Integer.parseInt(tempRecId);
+            lat = intent.getStringExtra("latitude");
+            lon = intent.getStringExtra("longitude");
         }
     }
 
@@ -97,11 +99,17 @@ public class RequestDetailForm extends AppCompatActivity {
         Cursor cursor = userDatabaseHelper.readAllData();
         if(cursor.getCount() > 0){
 
-            cursor.move(reqId-1);
+            cursor.moveToPosition(reqId-1);
             reqName = cursor.getString(1);
 
-            cursor.move(recId-1);
-            recName = cursor.getString(1);
+            if(recId <= 0){
+
+                recName = "-";
+            }else{
+
+                cursor.moveToPosition(recId-1);
+                recName = cursor.getString(1);
+            }
         }
     }
 
@@ -110,7 +118,7 @@ public class RequestDetailForm extends AppCompatActivity {
         Cursor cursor = bookDatabaseHelper.readAllData();
         if(cursor.getCount() > 0){
 
-            cursor.move(bookId-1);
+            cursor.moveToPosition(bookId-1);
             name = cursor.getString(1);
             author = cursor.getString(2);
             cover = cursor.getString(3);
