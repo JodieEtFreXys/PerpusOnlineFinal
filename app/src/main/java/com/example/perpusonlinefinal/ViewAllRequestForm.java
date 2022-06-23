@@ -73,7 +73,7 @@ public class ViewAllRequestForm extends AppCompatActivity {
     private void storeDataFromRequest(){
 
         Cursor cursor = requestDatabaseHelper.readAllData();
-        if(cursor.getCount() > 0){
+        if(cursor.getCount() <= 0){
             Toast.makeText(ViewAllRequestForm.this, "No data", Toast.LENGTH_SHORT).show();
         }else{
 
@@ -90,8 +90,10 @@ public class ViewAllRequestForm extends AppCompatActivity {
                 bookId.add(temp0);
                 requesterId.add(temp1);
                 receiverId.add(temp2);
-                latitude.add(cursor.getString(4));
-                longitude.add(cursor.getString(5));
+//                latitude.add(cursor.getString(4));
+//                longitude.add(cursor.getString(5));
+                latitude.add("tes");
+                longitude.add("tes");
 
                 storeDataFromUser(tempTemp1, tempTemp2);
                 storeDataFromBook(tempTemp0);
@@ -102,11 +104,11 @@ public class ViewAllRequestForm extends AppCompatActivity {
     private void storeDataFromBook(int id){
 
         Cursor cursor = bookDatabaseHelper.readAllData();
-        if(cursor.getCount() > 0){
+        if(cursor.getCount() <= 0){
             Toast.makeText(ViewAllRequestForm.this, "No data", Toast.LENGTH_SHORT).show();
         }else{
 
-            cursor.move(id);
+            cursor.move(id-1);
             name.add(cursor.getString(1));
             author.add(cursor.getString(2));
             cover.add(cursor.getString(3));
@@ -116,15 +118,21 @@ public class ViewAllRequestForm extends AppCompatActivity {
     private void storeDataFromUser(int reqId, int recId){
 
         Cursor cursor = userDatabaseHelper.readAllData();
-        if(cursor.getCount() > 0){
+        if(cursor.getCount() <= 0){
             Toast.makeText(ViewAllRequestForm.this, "No data", Toast.LENGTH_SHORT).show();
         }else{
-            //missing if statement
-            cursor.move(reqId);
+
+            cursor.move(reqId-1);
             requesterName.add(cursor.getString(1));
-            //missing if statement
-            cursor.move(recId);
-            receiverName.add(cursor.getString(1));
+
+            if(recId == -1){
+
+                receiverName.add("-");
+            }else{
+
+                cursor.move(recId-1);
+                receiverName.add(cursor.getString(1));
+            }
         }
     }
 }
