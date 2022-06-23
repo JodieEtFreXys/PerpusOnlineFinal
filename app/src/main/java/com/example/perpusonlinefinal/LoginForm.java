@@ -84,11 +84,12 @@ public class LoginForm extends AppCompatActivity {
         password = etxLoginPass.getText().toString();
 
         cursor = userDatabaseHelper.validateEmail(email, password);
+
+        cursor.moveToFirst();
+        int id = cursor.getInt(0);
         if(cursor.getCount() > 0){
-            // Change if
-            int id = Integer.parseInt(cursor.getString(0));
-//            int id = 1;
-            SharedPreferenceManager.setLoggedInUserData(this, id);
+
+            SharedPreferenceManager.setLoggedInUserData(LoginForm.this, id);
             return true;
         }else{
 
