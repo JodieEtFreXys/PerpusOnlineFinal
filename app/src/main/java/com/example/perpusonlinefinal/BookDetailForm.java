@@ -78,11 +78,8 @@ public class BookDetailForm extends AppCompatActivity {
             public void onClick(View view) {
 
                 //map fragment?
-//                float toLat = Float.parseFloat(latitude);
-//                float toLon = Float.parseFloat(longitude);
-
                 //reqId shared preference
-                requestDatabaseHelper.addData(bookId, SharedPreferenceManager.getUserId(BookDetailForm.this), -1, 0, 0);
+                requestDatabaseHelper.addData(bookId, SharedPreferenceManager.getUserId(BookDetailForm.this), -1, "0", "0");
 
                 Intent goToMainForm = new Intent(BookDetailForm.this, MainForm.class);
                 startActivity(goToMainForm);
