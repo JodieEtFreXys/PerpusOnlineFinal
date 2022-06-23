@@ -59,21 +59,59 @@ public class RequestDetailForm extends AppCompatActivity {
 
     private void initUi(){
 
-
+        //Missing SMS detail form
         txvRequestDetailName = findViewById(R.id.txvRequestDetailName);
         txvRequestDetailAuthor = findViewById(R.id.txvRequestDetailAuthor);
         txvReqDetailRequester = findViewById(R.id.txvReqDetailRequester);
         txvReqDetailReceiver = findViewById(R.id.txvReqDetailReceiver);
+        txvRequestDetailSynopsis = findViewById(R.id.txvRequestDetailSynopsis);
         imvRequestDetailCover = findViewById(R.id.imvRequestDetailCover);
         btnRequestDetailAccept = findViewById(R.id.btnRequestDetailAccept);
         txvlati = findViewById(R.id.lati);
 
+        requestDatabaseHelper = new RequestDatabaseHelper(this);
+        bookDatabaseHelper = new BookDatabaseHelper(this);
+        userDatabaseHelper = new UserDatabaseHelper(this);
 
+        getFromUserDatabase(reqId, recId);
+        getFromBookDatabase(bookId);
+        //Glide to Image
+        txvRequestDetailName.setText(name);
+        txvRequestDetailAuthor.setText(author);
+        txvReqDetailRequester.setText(reqName);
+        txvReqDetailReceiver.setText(recName);
+        txvRequestDetailSynopsis.setText(synopsis);
 
-
+        Glide.with(RequestDetailForm.this)
+                .load("https://isys6203-perpus-online.herokuapp.com/" + cover)
+                .into(imvRequestDetailCover);
     }
 
+    private void getFromUserDatabase(int reqId, int recId){
 
+        Cursor cursor = userDatabaseHelper.readAllData();
+        if(cursor.getCount() > 0){
+
+            cursor.move(reqId-1);
+            reqName = cursor.getString(1);
+
+            cursor.move(recId-1);
+            recName = cursor.getString(1);
+        }
+    }
+
+    private void getFromBookDatabase(int bookId){
+
+        Cursor cursor = bookDatabaseHelper.readAllData();
+        if(cursor.getCount() > 0){
+
+            cursor.move(bookId-1);
+            name = cursor.getString(1);
+            author = cursor.getString(2);
+            cover = cursor.getString(3);
+            synopsis = cursor.getString(4);
+        }
+    }
     private void initControl(){
 
 
