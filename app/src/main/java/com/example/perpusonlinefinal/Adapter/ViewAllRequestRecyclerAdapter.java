@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.perpusonlinefinal.R;
 import com.example.perpusonlinefinal.RequestDetailForm;
 
@@ -62,14 +63,16 @@ public class ViewAllRequestRecyclerAdapter extends RecyclerView.Adapter<ViewAllR
         String temp6 = String.valueOf(name.get(position));
         String temp7 = String.valueOf(author.get(position));
 
-        String tempTemp = String.valueOf(cover.get(position));
-        int temp8 = Integer.parseInt(tempTemp);
+        String temp8 = String.valueOf(cover.get(position));
         String tempTemp1 = String.valueOf(latitude.get(position));
         float temp9 = Float.parseFloat(tempTemp1);
         String tempTemp2 = String.valueOf(longitude.get(position));
         float temp0 = Float.parseFloat(tempTemp2);
 
-        holder.imvViewAllRequestBookCover.setImageResource(temp8);
+        Glide.with(context)
+                .load("https://isys6203-perpus-online.herokuapp.com/" + temp8)
+                .into(holder.imvViewAllRequestBookCover);
+
         holder.txvViewAllRequestBookName.setText(temp6);
         holder.txvViewAllRequestBookAuthor.setText(temp7);
         holder.txvViewAllRequestBookRequester.setText(temp4);
